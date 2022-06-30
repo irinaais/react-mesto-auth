@@ -10,6 +10,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeletePopup from './ConfirmDeletePopup';
+import {Route, Switch} from "react-router-dom";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -118,15 +119,25 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={onCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDeleteClick}
-          cards={cards}
-        />
+          <Switch>
+            <Route path="/sign-up">
+
+            </Route>
+            <Route path="/sign-in">
+
+            </Route>
+            <Route> {/*сделать потом защищенный роут*/}
+              <Main
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={onCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDeleteClick}
+                cards={cards}
+              />
+            </Route>
+          </Switch>
         <Footer />
       </div>
 
