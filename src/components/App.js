@@ -11,6 +11,9 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeletePopup from './ConfirmDeletePopup';
 import {Route, Switch} from "react-router-dom";
+import Login from "./Login";
+import Register from "./Register";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -119,25 +122,36 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
-          <Switch>
-            <Route path="/sign-up">
-
-            </Route>
-            <Route path="/sign-in">
-
-            </Route>
-            <Route> {/*сделать потом защищенный роут*/}
-              <Main
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={onCardClick}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDeleteClick}
-                cards={cards}
-              />
-            </Route>
-          </Switch>
+        <Switch>
+          <Route exact path="/">
+            <Main
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={onCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDeleteClick}
+              cards={cards}
+            />
+          </Route>
+          {/*<ProtectedRoute exact path="/"*/}
+          {/*                loggedIn={loggedIn}*/}
+          {/*                component={Main}*/}
+          {/*                onEditProfile={handleEditProfileClick}*/}
+          {/*                onAddPlace={handleAddPlaceClick}*/}
+          {/*                onEditAvatar={handleEditAvatarClick}*/}
+          {/*                onCardClick={onCardClick}*/}
+          {/*                onCardLike={handleCardLike}*/}
+          {/*                onCardDelete={handleCardDeleteClick}*/}
+          {/*                cards={cards}>*/}
+          {/*</ProtectedRoute>*/}
+          <Route path="/sign-up">
+            <Register />
+          </Route>
+          <Route path="/sign-in">
+            <Login />
+          </Route>
+        </Switch>
         <Footer />
       </div>
 
