@@ -121,9 +121,16 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        {/*<Header />*/}
         <Switch>
-          <Route exact path="/">
+          <Route path="/sign-up">
+            <Header link={"/sign-in"} linkText={"Войти"}/>
+            <Register />
+          </Route>
+          <Route path="/sign-in">
+            <Login />
+          </Route>
+          <Route path="/cards">
             <Main
               onEditProfile={handleEditProfileClick}
               onAddPlace={handleAddPlaceClick}
@@ -145,12 +152,6 @@ function App() {
           {/*                onCardDelete={handleCardDeleteClick}*/}
           {/*                cards={cards}>*/}
           {/*</ProtectedRoute>*/}
-          <Route path="/sign-up">
-            <Register />
-          </Route>
-          <Route path="/sign-in">
-            <Login />
-          </Route>
         </Switch>
         <Footer />
       </div>
