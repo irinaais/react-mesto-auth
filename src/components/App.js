@@ -128,6 +128,7 @@ function App() {
             <Register />
           </Route>
           <Route path="/sign-in">
+            <Header link={"/sign-up"} linkText={"Регистрация"}/>
             <Login />
           </Route>
           <Route path="/cards">
