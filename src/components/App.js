@@ -10,7 +10,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeletePopup from './ConfirmDeletePopup';
-import {Route, Switch} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
@@ -122,26 +122,12 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         {/*<Header />*/}
-        <Switch>
-          <Route path="/sign-up">
-            <Header link={"/sign-in"} linkText={"Войти"}/>
-            <Register />
-          </Route>
-          <Route path="/sign-in">
-            <Header link={"/sign-up"} linkText={"Регистрация"}/>
-            <Login />
-          </Route>
-          <Route path="/cards">
-            <Main
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={onCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDeleteClick}
-              cards={cards}
-            />
-          </Route>
+        <Routes>
+          <Route path="/sign-up" element={<><Header link={"/sign-in"} linkText={"Войти"}/><Register /></>}/>
+          <Route path="/sign-in" element={<><Header link={"/sign-up"} linkText={"Регистрация"}/><Login /></>}/>
+          <Route path="/cards" element={<Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
+                                              onEditAvatar={handleEditAvatarClick} onCardClick={onCardClick}
+                                              onCardLike={handleCardLike} onCardDelete={handleCardDeleteClick} cards={cards}/>}/>
           {/*<ProtectedRoute exact path="/"*/}
           {/*                loggedIn={loggedIn}*/}
           {/*                component={Main}*/}
@@ -153,7 +139,7 @@ function App() {
           {/*                onCardDelete={handleCardDeleteClick}*/}
           {/*                cards={cards}>*/}
           {/*</ProtectedRoute>*/}
-        </Switch>
+        </Routes>
         <Footer />
       </div>
 
