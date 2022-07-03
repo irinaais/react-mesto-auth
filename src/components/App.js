@@ -10,7 +10,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeletePopup from './ConfirmDeletePopup';
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, Navigate} from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
@@ -24,6 +24,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({name:'',link:'',about:''});
   const [cards, setCards] = React.useState([]);
   const [cardForDelete, setCardForDelete] = React.useState(null);
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   React.useEffect(() => {
     api.getUserInfo()
@@ -123,6 +124,7 @@ function App() {
       <div className="page">
         {/*<Header />*/}
         <Routes>
+          <Route path="/" element={loggedIn ? <Navigate to="/cards"/> : <Navigate to="/sign-in"/>}/>
           <Route path="/sign-up" element={<><Header link={"/sign-in"} linkText={"Войти"}/><Register /></>}/>
           <Route path="/sign-in" element={<><Header link={"/sign-up"} linkText={"Регистрация"}/><Login /></>}/>
           <Route path="/cards" element={<Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
