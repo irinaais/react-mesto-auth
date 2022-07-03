@@ -10,7 +10,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeletePopup from './ConfirmDeletePopup';
-import {Route, Routes, Navigate} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
@@ -122,25 +122,22 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        {/*<Header />*/}
         <Routes>
-          <Route path="/" element={loggedIn ? <Navigate to="/cards"/> : <Navigate to="/sign-in"/>}/>
+          <Route exact path="/" element={<ProtectedRoute loggedIn={loggedIn} />}>
+            <Route path="/" element={<><Header link={"/***"} linkText={"***"}/>
+                                       <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
+                                             onEditAvatar={handleEditAvatarClick} onCardClick={onCardClick}
+                                             onCardLike={handleCardLike} onCardDelete={handleCardDeleteClick}
+                                             cards={cards}/></>
+            }/>
+          </Route>
           <Route path="/sign-up" element={<><Header link={"/sign-in"} linkText={"Войти"}/><Register /></>}/>
           <Route path="/sign-in" element={<><Header link={"/sign-up"} linkText={"Регистрация"}/><Login /></>}/>
-          <Route path="/cards" element={<Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
-                                              onEditAvatar={handleEditAvatarClick} onCardClick={onCardClick}
-                                              onCardLike={handleCardLike} onCardDelete={handleCardDeleteClick} cards={cards}/>}/>
-          {/*<ProtectedRoute exact path="/"*/}
-          {/*                loggedIn={loggedIn}*/}
-          {/*                component={Main}*/}
-          {/*                onEditProfile={handleEditProfileClick}*/}
-          {/*                onAddPlace={handleAddPlaceClick}*/}
-          {/*                onEditAvatar={handleEditAvatarClick}*/}
-          {/*                onCardClick={onCardClick}*/}
-          {/*                onCardLike={handleCardLike}*/}
-          {/*                onCardDelete={handleCardDeleteClick}*/}
-          {/*                cards={cards}>*/}
-          {/*</ProtectedRoute>*/}
+          <Route path="/cards" element={<><Header link={"/***"} linkText={"***"}/>
+                                          <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
+                                                onEditAvatar={handleEditAvatarClick} onCardClick={onCardClick}
+                                                onCardLike={handleCardLike} onCardDelete={handleCardDeleteClick}
+                                                cards={cards}/></>}/>
         </Routes>
         <Footer />
       </div>
