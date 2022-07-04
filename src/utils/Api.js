@@ -18,7 +18,6 @@ class Api {
     })
       .then(this._checkResponse);
   }
-
   getInitialCards() {
     return fetch(this._url + '/cards', {
       method: 'GET',

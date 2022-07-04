@@ -47,6 +47,7 @@
 @import url(./blocks/popup/__img-info/popup__img-info.css);
 @import url(./blocks/popup/__delete-card/popup__delete-card.css);
 @import url(./blocks/popup/__edit-avatar/popup__edit-avatar.css);
+@import url(./blocks/popup/__infotooltip/popup__infotooltip.css);
 @import url(./blocks/popup/__infotooltip-image/popup__infotooltip-image.css);
 @import url(./blocks/popup/__infotooltip-text/popup__infotooltip-text.css);
 

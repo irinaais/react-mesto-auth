@@ -4,7 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
 import ImagePopup from './ImagePopup';
-import api from "../utils/Api";
+import Api from "../utils/Api";
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
@@ -14,6 +14,7 @@ import {Route, Routes} from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -25,9 +26,12 @@ function App() {
   const [cards, setCards] = React.useState([]);
   const [cardForDelete, setCardForDelete] = React.useState(null);
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
+  const [isInfoTooltipOk, setIsInfoTooltipOk] = React.useState(false);
+  const [isInfoTooltipFail, setIsInfoTooltipFail] = React.useState(false);
 
   React.useEffect(() => {
-    api.getUserInfo()
+    Api.getUserInfo()
       .then((userInfo) => {
         setCurrentUser(userInfo);
       })
@@ -35,7 +39,7 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    api.getInitialCards()
+    Api.getInitialCards()
       .then((cards) => {
         setCards(cards);
       })
@@ -54,12 +58,27 @@ function App() {
     setIsEditAvatarPopupOpen(true);
   }
 
+  function openInfoTooltipOk() {
+    setIsInfoTooltipOpen(true);
+    setIsInfoTooltipOk(true);
+    setIsInfoTooltipFail(false);
+  }
+
+  function openInfoTooltipFail() {
+    setIsInfoTooltipOpen(true);
+    setIsInfoTooltipOk(false);
+    setIsInfoTooltipFail(true);
+  }
+
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsConfirmDeletePopupOpen(false);
     setSelectedCard(null);
+    setIsInfoTooltipOpen(false);
+    // setIsInfoTooltipOk(false);
+    // setIsInfoTooltipFail(false);
   }
 
   function onCardClick(card) {
@@ -75,7 +94,7 @@ function App() {
     // проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, !isLiked)
+    Api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
@@ -84,7 +103,7 @@ function App() {
 
   function handleCardConfirmDelete() {
     setIsConfirmDeletePopupOpen(true);
-    api.deleteCard(cardForDelete._id)
+    Api.deleteCard(cardForDelete._id)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== cardForDelete._id && c));
         closeAllPopups();
@@ -93,7 +112,7 @@ function App() {
   }
 
   function handleUpdateUser(userData) {
-    api.saveUserInfo(userData)
+    Api.saveUserInfo(userData)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -102,7 +121,7 @@ function App() {
   }
 
   function handleUpdateAvatar(userData) {
-    api.editAvatar(userData)
+    Api.editAvatar(userData)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -111,7 +130,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(data) {
-    api.addCard(data)
+    Api.addCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -131,7 +150,8 @@ function App() {
                                              cards={cards}/></>
             }/>
           </Route>
-          <Route path="/sign-up" element={<><Header link={"/sign-in"} linkText={"Войти"}/><Register /></>}/>
+          <Route path="/sign-up" element={<><Header link={"/sign-in"} linkText={"Войти"}/>
+                                            <Register onRegister={openInfoTooltipOk} onRegisterError={openInfoTooltipFail}/></>}/>
           <Route path="/sign-in" element={<><Header link={"/sign-up"} linkText={"Регистрация"}/><Login /></>}/>
           <Route path="/cards" element={<><Header link={"/***"} linkText={"***"}/>
                                           <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
@@ -165,6 +185,12 @@ function App() {
       <ImagePopup
         card={selectedCard}
         onClose={closeAllPopups}/>
+
+      <InfoTooltip
+        isOpen={isInfoTooltipOpen}
+        onClose={closeAllPopups}
+        isInfoTooltipOk={isInfoTooltipOk}
+        isInfoTooltipFail={isInfoTooltipFail}/>
     </CurrentUserContext.Provider>
   );
 }

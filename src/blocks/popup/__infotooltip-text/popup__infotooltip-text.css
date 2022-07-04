@@ -3,5 +3,6 @@
     font-size: 24px;
     color: black;
     line-height: 29px;
-    align-items: center;
+    text-align: center;
+    margin: 32px 36px 0;
 }
