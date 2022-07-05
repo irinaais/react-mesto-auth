@@ -70,6 +70,10 @@ function App() {
     setIsInfoTooltipFail(true);
   }
 
+  function handleLogin() {
+    setLoggedIn(true);
+  }
+
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -152,7 +156,8 @@ function App() {
           </Route>
           <Route path="/sign-up" element={<><Header link={"/sign-in"} linkText={"Войти"}/>
                                             <Register onRegister={openInfoTooltipOk} onRegisterError={openInfoTooltipFail}/></>}/>
-          <Route path="/sign-in" element={<><Header link={"/sign-up"} linkText={"Регистрация"}/><Login /></>}/>
+          <Route path="/sign-in" element={<><Header link={"/sign-up"} linkText={"Регистрация"}/>
+                                            <Login handleLogin={handleLogin}/> </>}/>
           <Route path="/cards" element={<><Header link={"/***"} linkText={"***"}/>
                                           <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
                                                 onEditAvatar={handleEditAvatarClick} onCardClick={onCardClick}
