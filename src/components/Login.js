@@ -28,7 +28,7 @@ function Login (props) {
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }
 
   return (

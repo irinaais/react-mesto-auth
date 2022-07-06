@@ -32,3 +32,18 @@ export const authorise = (email, password) => {
     })
     .catch((err) => console.log(err));
 };
+
+//принимает на вход JWT. Он б. отправлен на сервер и, если токен действителен, вернет ответ с инф-й о пользов-ле
+export const tokenCheck = (token) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {'Content-Type': 'application/json', "Authorization" : `Bearer ${token}`}
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => console.log(err));
+};

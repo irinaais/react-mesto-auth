@@ -31,7 +31,7 @@ function Register (props) {
       .catch((err) => {
         console.log(err);
         props.onRegisterError();
-      })
+      });
   }
 
   return (

@@ -10,11 +10,12 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeletePopup from './ConfirmDeletePopup';
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
+import * as ApiAuth from "../ApiAuth";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -29,6 +30,7 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [isInfoTooltipOk, setIsInfoTooltipOk] = React.useState(false);
   const [isInfoTooltipFail, setIsInfoTooltipFail] = React.useState(false);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     Api.getUserInfo()
@@ -45,6 +47,10 @@ function App() {
       })
       .catch(err => console.log(err));
   }, []);
+
+  React.useEffect(() => {
+    handleLogin();
+  })
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -70,10 +76,6 @@ function App() {
     setIsInfoTooltipFail(true);
   }
 
-  function handleLogin() {
-    setLoggedIn(true);
-  }
-
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -83,6 +85,28 @@ function App() {
     setIsInfoTooltipOpen(false);
     // setIsInfoTooltipOk(false);
     // setIsInfoTooltipFail(false);
+  }
+
+  //проверяем наличие у пользователя токена. Если он есть в localStorage, берем токен оттуда
+  function handleLogin() {
+    tokenCheck();
+  }
+
+  //если у пользователя есть токен в localStorage, проверяем действующий он или нет
+  function tokenCheck() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      ApiAuth.tokenCheck(token)
+        .then((res) => {
+          if (res.data) {
+            setLoggedIn(true);
+            navigate("/cards");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   function onCardClick(card) {
