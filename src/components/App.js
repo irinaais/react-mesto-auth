@@ -30,6 +30,7 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [isInfoTooltipOk, setIsInfoTooltipOk] = React.useState(false);
   const [isInfoTooltipFail, setIsInfoTooltipFail] = React.useState(false);
+  const [email, setEmail] = React.useState('');
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -46,11 +47,8 @@ function App() {
         setCards(cards);
       })
       .catch(err => console.log(err));
-  }, []);
-
-  React.useEffect(() => {
     handleLogin();
-  })
+  }, []);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -83,8 +81,6 @@ function App() {
     setIsConfirmDeletePopupOpen(false);
     setSelectedCard(null);
     setIsInfoTooltipOpen(false);
-    // setIsInfoTooltipOk(false);
-    // setIsInfoTooltipFail(false);
   }
 
   //проверяем наличие у пользователя токена. Если он есть в localStorage, берем токен оттуда
@@ -100,13 +96,20 @@ function App() {
         .then((res) => {
           if (res.data) {
             setLoggedIn(true);
-            navigate("/cards");
+            setEmail(res.data.email);
+            navigate("/");
           }
         })
         .catch((err) => {
           console.log(err);
         });
     }
+  }
+
+  function onLogOut() {
+    setLoggedIn(false);
+    localStorage.removeItem('token');
+    navigate("/sign-in");
   }
 
   function onCardClick(card) {
@@ -170,23 +173,18 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Routes>
-          <Route exact path="/" element={<ProtectedRoute loggedIn={loggedIn} />}>
-            <Route path="/" element={<><Header link={"/***"} linkText={"***"}/>
-                                       <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
-                                             onEditAvatar={handleEditAvatarClick} onCardClick={onCardClick}
-                                             onCardLike={handleCardLike} onCardDelete={handleCardDeleteClick}
-                                             cards={cards}/></>
+          <Route path="/" element={<ProtectedRoute loggedIn={loggedIn} />}>
+            <Route path="/" element={<><Header email={email} text={"Выйти"} loggedIn={loggedIn} onLogout={onLogOut}/>
+              <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick} onCardClick={onCardClick}
+                    onCardLike={handleCardLike} onCardDelete={handleCardDeleteClick}
+                    cards={cards}/></>
             }/>
           </Route>
-          <Route path="/sign-up" element={<><Header link={"/sign-in"} linkText={"Войти"}/>
+          <Route path="/sign-up" element={<><Header link={"/sign-in"} text={"Войти"} loggedIn={loggedIn}/>
                                             <Register onRegister={openInfoTooltipOk} onRegisterError={openInfoTooltipFail}/></>}/>
-          <Route path="/sign-in" element={<><Header link={"/sign-up"} linkText={"Регистрация"}/>
+          <Route path="/sign-in" element={<><Header link={"/sign-up"} text={"Регистрация"} loggedIn={loggedIn}/>
                                             <Login handleLogin={handleLogin}/> </>}/>
-          <Route path="/cards" element={<><Header link={"/***"} linkText={"***"}/>
-                                          <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
-                                                onEditAvatar={handleEditAvatarClick} onCardClick={onCardClick}
-                                                onCardLike={handleCardLike} onCardDelete={handleCardDeleteClick}
-                                                cards={cards}/></>}/>
         </Routes>
         <Footer />
       </div>

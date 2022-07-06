@@ -23,7 +23,7 @@ function Login (props) {
           setEmail('');
           setPassword('');
           props.handleLogin();
-          navigate("/cards");
+          navigate("/");
         }
       })
       .catch((err) => {

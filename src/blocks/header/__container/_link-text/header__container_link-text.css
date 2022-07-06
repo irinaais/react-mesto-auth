@@ -1,4 +1,4 @@
-.header__link-text {
+.header__container_link-text {
     font-weight: 400;
     font-size: 18px;
     color: white;
@@ -6,4 +6,5 @@
     text-align: right;
     text-decoration: none;
     margin-top: 5px;
+    margin-left: 24px;
 }
