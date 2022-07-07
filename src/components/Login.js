@@ -1,6 +1,6 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import * as ApiAuth from "../ApiAuth";
+import * as ApiAuth from "../utils/ApiAuth";
 
 function Login (props) {
   const [email, setEmail] = React.useState('');

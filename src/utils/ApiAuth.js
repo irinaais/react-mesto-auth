@@ -1,18 +1,22 @@
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
+function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
+
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({email, password})
   })
+    .then(checkResponse)
     .then((res) => {
-      return res.json();
-    })
-    .then((res) =>{
       return res;
     })
-    .catch((err) => console.log(err));
 };
 
 export const authorise = (email, password) => {
@@ -21,16 +25,13 @@ export const authorise = (email, password) => {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({email, password})
   })
-    .then((res) => {
-      return res.json();
-    })
+    .then(checkResponse)
     .then((data) => {
       if (data.token){
         localStorage.setItem('token', data.token);
         return data;
       }
     })
-    .catch((err) => console.log(err));
 };
 
 //принимает на вход JWT. Он б. отправлен на сервер и, если токен действителен, вернет ответ с инф-й о пользов-ле
@@ -39,9 +40,7 @@ export const tokenCheck = (token) => {
     method: 'GET',
     headers: {'Content-Type': 'application/json', "Authorization" : `Bearer ${token}`}
   })
-    .then((res) => {
-      return res.json();
-    })
+    .then(checkResponse)
     .then((data) => {
       return data;
     })
