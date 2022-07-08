@@ -8,8 +8,8 @@ function ImagePopup(props) {
         <div className="popup__view-card">
           <img
             className="popup__img"
-            src={props.card ? props.card.link : ''}
-            alt={props.card ? props.card.name : ''}
+            src={props.card?.link ?? ''}
+            alt={props.card?.name ?? ''}
           />
           <p className="popup__img-info">{props.card ? props.card.name : ''}</p>
           <button className="button popup__close-button" onClick={props.onClose} type="button" aria-label="Закрыть попап"/>
