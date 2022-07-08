@@ -1,11 +1,9 @@
 import React from "react";
-import {Link, useNavigate} from "react-router-dom";
-import * as ApiAuth from "../utils/ApiAuth";
+import {Link} from "react-router-dom";
 
 function Register (props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const navigate = useNavigate();
 
   function handleChangeEmail(evt) {
     setEmail(evt.target.value);
@@ -17,21 +15,9 @@ function Register (props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    ApiAuth.register(email, password)
-      .then((res) => {
-        if (res.data) {
-          setEmail('');
-          setPassword('');
-          navigate('/sign-in');
-          props.onRegister();
-        } else {
-          props.onRegisterError();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        props.onRegisterError();
-      });
+    props.onRegister(email, password);
+    setEmail('');
+    setPassword('');
   }
 
   return (

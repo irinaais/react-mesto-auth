@@ -106,6 +106,22 @@ function App() {
     }
   }
 
+  function onRegister(email, password) {
+    ApiAuth.register(email, password)
+      .then((res) => {
+        if (res.data) {
+          navigate('/sign-in');
+          openInfoTooltipOk();
+        } else {
+          openInfoTooltipFail();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        openInfoTooltipFail();
+      });
+  }
+
   function onLogin(email, password) {
     ApiAuth.authorise(email, password)
       .then((data) => {
@@ -196,7 +212,7 @@ function App() {
             }/>
           </Route>
           <Route path="/sign-up" element={<><Header link={"/sign-in"} text={"Войти"} loggedIn={loggedIn}/>
-                                            <Register onRegister={openInfoTooltipOk} onRegisterError={openInfoTooltipFail}/></>}/>
+                                            <Register onRegister={onRegister}/></>}/>
           <Route path="/sign-in" element={<><Header link={"/sign-up"} text={"Регистрация"} loggedIn={loggedIn}/>
                                             <Login onLogin={onLogin}/> </>}/>
         </Routes>
