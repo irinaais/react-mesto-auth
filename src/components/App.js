@@ -36,14 +36,10 @@ function App() {
   useEffect(() => {
     tokenCheck();
     if (loggedIn) {
-      Api.getUserInfo()
-        .then((userInfo) => {
-          setCurrentUser(userInfo);
-        })
-        .catch(err => console.log(err));
-      Api.getInitialCards()
-        .then((cards) => {
+      Api.getUserInfoAndInitialCards()
+        .then(([cards, userInfo]) => {
           setCards(cards);
+          setCurrentUser(userInfo);
         })
         .catch(err => console.log(err));
     }}, [loggedIn]);
