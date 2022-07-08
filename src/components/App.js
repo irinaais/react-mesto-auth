@@ -23,7 +23,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [currentUser, setCurrentUser] = useState({name:'',link:'',about:''});
+  const [currentUser, setCurrentUser] = useState({name: '', link: '', about: ''});
   const [cards, setCards] = useState([]);
   const [cardForDelete, setCardForDelete] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -42,7 +42,8 @@ function App() {
           setCurrentUser(userInfo);
         })
         .catch(err => console.log(err));
-    }}, [loggedIn]);
+    }
+  }, [loggedIn]);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -76,11 +77,6 @@ function App() {
     setSelectedCard(null);
     setIsInfoTooltipOpen(false);
   }
-
-  //проверяем наличие у пользователя токена. Если он есть в localStorage, берем токен оттуда
-  // function handleLogin() {
-  //   tokenCheck();
-  // }
 
   //если у пользователя есть токен в localStorage, проверяем действующий он или нет
   function tokenCheck() {
@@ -197,7 +193,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Routes>
-          <Route path="/" element={<ProtectedRoute loggedIn={loggedIn} />}>
+          <Route path="/" element={<ProtectedRoute loggedIn={loggedIn}/>}>
             <Route path="/" element={<><Header email={email} text={"Выйти"} loggedIn={loggedIn} onLogout={onLogOut}/>
               <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
                     onEditAvatar={handleEditAvatarClick} onCardClick={onCardClick}
@@ -206,11 +202,11 @@ function App() {
             }/>
           </Route>
           <Route path="/sign-up" element={<><Header link={"/sign-in"} text={"Войти"} loggedIn={loggedIn}/>
-                                            <Register onRegister={onRegister}/></>}/>
+            <Register onRegister={onRegister}/></>}/>
           <Route path="/sign-in" element={<><Header link={"/sign-up"} text={"Регистрация"} loggedIn={loggedIn}/>
-                                            <Login onLogin={onLogin}/> </>}/>
+            <Login onLogin={onLogin}/> </>}/>
         </Routes>
-        <Footer />
+        <Footer/>
       </div>
 
       <EditProfilePopup
