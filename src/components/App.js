@@ -106,6 +106,20 @@ function App() {
     }
   }
 
+  function onLogin(email, password) {
+    ApiAuth.authorise(email, password)
+      .then((data) => {
+        if (data.token) {
+          handleLogin();
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        openInfoTooltipFail();
+      });
+  }
+
   function onLogOut() {
     setLoggedIn(false);
     localStorage.removeItem('token');
@@ -184,7 +198,7 @@ function App() {
           <Route path="/sign-up" element={<><Header link={"/sign-in"} text={"Войти"} loggedIn={loggedIn}/>
                                             <Register onRegister={openInfoTooltipOk} onRegisterError={openInfoTooltipFail}/></>}/>
           <Route path="/sign-in" element={<><Header link={"/sign-up"} text={"Регистрация"} loggedIn={loggedIn}/>
-                                            <Login handleLogin={handleLogin} onAuthError={openInfoTooltipFail}/> </>}/>
+                                            <Login onLogin={onLogin}/> </>}/>
         </Routes>
         <Footer />
       </div>

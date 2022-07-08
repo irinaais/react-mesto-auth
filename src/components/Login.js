@@ -1,11 +1,8 @@
 import React from "react";
-import {useNavigate} from "react-router-dom";
-import * as ApiAuth from "../utils/ApiAuth";
 
 function Login (props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const navigate = useNavigate();
 
   function handleChangeEmail(evt) {
     setEmail(evt.target.value);
@@ -17,19 +14,9 @@ function Login (props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    ApiAuth.authorise(email, password)
-      .then((data) => {
-        if (data.token) {
-          setEmail('');
-          setPassword('');
-          props.handleLogin();
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        props.onAuthError();
-      });
+    props.onLogin(email, password);
+    setEmail('');
+    setPassword('');
   }
 
   return (
