@@ -29,7 +29,6 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isInfoTooltipOk, setIsInfoTooltipOk] = useState(false);
-  const [isInfoTooltipFail, setIsInfoTooltipFail] = useState(false);
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
@@ -60,13 +59,11 @@ function App() {
   function openInfoTooltipOk() {
     setIsInfoTooltipOpen(true);
     setIsInfoTooltipOk(true);
-    setIsInfoTooltipFail(false);
   }
 
   function openInfoTooltipFail() {
     setIsInfoTooltipOpen(true);
     setIsInfoTooltipOk(false);
-    setIsInfoTooltipFail(true);
   }
 
   function closeAllPopups() {
@@ -237,7 +234,7 @@ function App() {
         isOpen={isInfoTooltipOpen}
         onClose={closeAllPopups}
         isInfoTooltipOk={isInfoTooltipOk}
-        isInfoTooltipFail={isInfoTooltipFail}/>
+        isInfoTooltipFail={!isInfoTooltipOk}/>
     </CurrentUserContext.Provider>
   );
 }

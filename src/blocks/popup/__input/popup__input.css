@@ -19,6 +19,10 @@
     margin-top: 0;
 }
 
+.popup__input::placeholder {
+    color:  #808080;
+}
+
 @media screen and (max-width: 767px) {
     .popup__input:first-child {
         margin-top: 62px;
