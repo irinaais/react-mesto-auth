@@ -184,7 +184,7 @@ function App() {
           <Route path="/sign-up" element={<><Header link={"/sign-in"} text={"Войти"} loggedIn={loggedIn}/>
                                             <Register onRegister={openInfoTooltipOk} onRegisterError={openInfoTooltipFail}/></>}/>
           <Route path="/sign-in" element={<><Header link={"/sign-up"} text={"Регистрация"} loggedIn={loggedIn}/>
-                                            <Login handleLogin={handleLogin}/> </>}/>
+                                            <Login handleLogin={handleLogin} onAuthError={openInfoTooltipFail}/> </>}/>
         </Routes>
         <Footer />
       </div>
