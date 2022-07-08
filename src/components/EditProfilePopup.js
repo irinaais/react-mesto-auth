@@ -1,11 +1,11 @@
 import PopupWithForm from './PopupWithForm';
-import React from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function EditProfilePopup(props) {
-  const currentUser = React.useContext(CurrentUserContext);
-  const [name, setName] = React.useState('');
-  const [description, setDescription] = React.useState('');
+  const currentUser = useContext(CurrentUserContext);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
 
   function handleChangeName(evt) {
     setName(evt.target.value);
@@ -25,7 +25,7 @@ function EditProfilePopup(props) {
   }
 
 // эффект, который будет обновлять переменные состояния при изменении контекста
-  React.useEffect(() => {
+  useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
   }, [currentUser, props.isOpen]);

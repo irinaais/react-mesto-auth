@@ -1,9 +1,9 @@
 import PopupWithForm from "./PopupWithForm";
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 function AddPlacePopup(props) {
-  const [name, setName] = React.useState('');
-  const [link, setLink] = React.useState('');
+  const [name, setName] = useState('');
+  const [link, setLink] = useState('');
 
   function handleChangeName(evt) {
     setName(evt.target.value);
@@ -23,7 +23,7 @@ function AddPlacePopup(props) {
   }
 
   // эффект, который будет обновлять переменные состояния при изменении контекста
-  React.useEffect(() => {
+  useEffect(() => {
       setName('');
       setLink('');
     },[props.isOpen]

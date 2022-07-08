@@ -1,5 +1,5 @@
 import '../index.css';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
@@ -18,22 +18,22 @@ import InfoTooltip from "./InfoTooltip";
 import * as ApiAuth from "../utils/ApiAuth";
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(null);
-  const [currentUser, setCurrentUser] = React.useState({name:'',link:'',about:''});
-  const [cards, setCards] = React.useState([]);
-  const [cardForDelete, setCardForDelete] = React.useState(null);
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
-  const [isInfoTooltipOk, setIsInfoTooltipOk] = React.useState(false);
-  const [isInfoTooltipFail, setIsInfoTooltipFail] = React.useState(false);
-  const [email, setEmail] = React.useState('');
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [currentUser, setCurrentUser] = useState({name:'',link:'',about:''});
+  const [cards, setCards] = useState([]);
+  const [cardForDelete, setCardForDelete] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [isInfoTooltipOk, setIsInfoTooltipOk] = useState(false);
+  const [isInfoTooltipFail, setIsInfoTooltipFail] = useState(false);
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     Api.getUserInfo()
       .then((userInfo) => {
         setCurrentUser(userInfo);
@@ -41,7 +41,7 @@ function App() {
       .catch(err => console.log(err));
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     Api.getInitialCards()
       .then((cards) => {
         setCards(cards);

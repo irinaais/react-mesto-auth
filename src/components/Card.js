@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function Card(props) {
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
   const isOwn = props.card.owner._id === currentUser._id; //являемся ли мы владельцем текущей карточки
   const isLiked = props.card.likes.some(i => i._id === currentUser._id); //есть ли у карточки лайк, поставленный текущим пользователем
   const cardDeleteButtonClassName = (`${isOwn ? 'button button_variant_delete' : 'button_variant_delete_hidden'}`); //`className` кнопки удаления
