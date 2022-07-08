@@ -34,21 +34,19 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    Api.getUserInfo()
-      .then((userInfo) => {
-        setCurrentUser(userInfo);
-      })
-      .catch(err => console.log(err));
-  }, []);
-
-  useEffect(() => {
-    Api.getInitialCards()
-      .then((cards) => {
-        setCards(cards);
-      })
-      .catch(err => console.log(err));
-    handleLogin();
-  }, []);
+    tokenCheck();
+    if (loggedIn) {
+      Api.getUserInfo()
+        .then((userInfo) => {
+          setCurrentUser(userInfo);
+        })
+        .catch(err => console.log(err));
+      Api.getInitialCards()
+        .then((cards) => {
+          setCards(cards);
+        })
+        .catch(err => console.log(err));
+    }}, [loggedIn]);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -84,9 +82,9 @@ function App() {
   }
 
   //проверяем наличие у пользователя токена. Если он есть в localStorage, берем токен оттуда
-  function handleLogin() {
-    tokenCheck();
-  }
+  // function handleLogin() {
+  //   tokenCheck();
+  // }
 
   //если у пользователя есть токен в localStorage, проверяем действующий он или нет
   function tokenCheck() {
@@ -126,7 +124,7 @@ function App() {
     ApiAuth.authorise(email, password)
       .then((data) => {
         if (data.token) {
-          handleLogin();
+          tokenCheck();
           navigate("/");
         }
       })
