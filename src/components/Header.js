@@ -1,5 +1,5 @@
 import logo from '../images/Vector.svg';
-import {Link} from "react-router-dom";
+import {Link, Route, Routes} from "react-router-dom";
 import React from "react";
 
 function Header(props) {
@@ -11,12 +11,16 @@ function Header(props) {
         alt="Логотип проекта Место"
       />
       <div className={"header__container"}>
-        {props.loggedIn ?
-          <>
-            <p className={"header__container_user-email"}>{props.email}</p>
-            <button className={"button header__container_button"} onClick={props.onLogout}>{props.text}</button>
-          </>
-        : <Link to={props.link} className="button header__container_link-text">{props.text}</Link>}
+        <Routes>
+          <Route path="/" element={
+            <>
+             <p className={"header__container_user-email"}>{props.email}</p>
+             <button className={"button header__container_button"} onClick={props.onLogout}>Выйти</button>
+            </>
+          }/>
+          <Route path="/sign-up" element={<Link to={"/sign-in"} className="button header__container_link-text">Войти</Link>}/>
+          <Route path="/sign-in" element={<Link to={"/sign-up"} className="button header__container_link-text">Регистрация</Link>}/>
+        </Routes>
       </div>
     </header>
   );

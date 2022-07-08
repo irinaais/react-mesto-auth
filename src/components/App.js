@@ -189,19 +189,18 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
+        <Header email={email} onLogout={onLogOut}/>
         <Routes>
           <Route path="/" element={<ProtectedRoute loggedIn={loggedIn}/>}>
-            <Route path="/" element={<><Header email={email} text={"Выйти"} loggedIn={loggedIn} onLogout={onLogOut}/>
+            <Route path="/" element={
               <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
                     onEditAvatar={handleEditAvatarClick} onCardClick={onCardClick}
                     onCardLike={handleCardLike} onCardDelete={handleCardDeleteClick}
-                    cards={cards}/></>
+                    cards={cards}/>
             }/>
           </Route>
-          <Route path="/sign-up" element={<><Header link={"/sign-in"} text={"Войти"} loggedIn={loggedIn}/>
-            <Register onRegister={onRegister}/></>}/>
-          <Route path="/sign-in" element={<><Header link={"/sign-up"} text={"Регистрация"} loggedIn={loggedIn}/>
-            <Login onLogin={onLogin}/> </>}/>
+          <Route path="/sign-up" element={<Register onRegister={onRegister}/>}/>
+          <Route path="/sign-in" element={<Login onLogin={onLogin}/>}/>
         </Routes>
         <Footer/>
       </div>
